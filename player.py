@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.lives = 3  # Nombre de vie du joueur
         self.max_lives = 3  # Nombre maximal de vie que le joueur peut avoir
 
+
     # Fonction qui permet de faire monter le joueur
     def move_up(self):
         self.rect.y -= self.velocity1
@@ -24,9 +25,11 @@ class Player(pygame.sprite.Sprite):
     def come_back_down(self):
         self.rect.y += self.velocity2
 
-    # Fonction concernant les dégâts faits au joueur
     def damage(self):
+    # Fonction concernant les dégâts faits au joueur
         self.lives -= 1 # Le nombre de vies du joueur diminue de 1
+        self.game.update_health_image(self.lives)
+
         # Si le joueur a maximum 0 vie :
         if self.lives <= 0:
             self.game.test_score()

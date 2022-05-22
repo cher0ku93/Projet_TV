@@ -7,6 +7,7 @@ from tinsel import Tinsel
 from score import Score
 from inputbox import InputBox
 
+
 # Création de la classe représentant le jeu
 class Game:
     def __init__(self):
@@ -39,6 +40,9 @@ class Game:
         self.inputbox = InputBox(100, 100, 140, 32) # Création de l'instance de l'inputbox
         self.name_needed = False
 
+        self.lifes_image = [pygame.image.load('images/hearts 1.png'), pygame.image.load('images/hearts 2.png'), pygame.image.load('images/hearts 3.png')]
+        self.health_image = pygame.transform.scale(self.lifes_image[2], (120, 120))
+
 
     def test_score(self):
         self.load_score.new_score = self.score
@@ -54,7 +58,6 @@ class Game:
                 self.inputbox.handle_event(event)
             self.inputbox.update()
             self.inputbox.draw(screen) # Mise en place de l'inputbox sur l'écran
-            pygame.display.flip() # Mise à jour de l'écran
 
         # Sinon :
         else:
@@ -71,6 +74,8 @@ class Game:
         self.inputbox.done = False
         self.load_score.updated = False
 
+
+
     # Fin de jeu
     def game_over(self):
         print("\nScore :", self.score) # Affichage du score final
@@ -79,18 +84,17 @@ class Game:
         self.all_tinsels = pygame.sprite.Group()
         self.player.lives = self.player.max_lives  # Réinitialisation du nombre de vie à 3
         self.score = 0  # Réinitialisation du score à 0
+        self.health_image = pygame.transform.scale(self.lifes_image[2], (120, 120))
+
 
     def update(self, screen):
 
         # Application de l'arrière plan & défilement en boucle
+        mod = self.x_background % self.background.get_rect().width
+        screen.blit(self.background, (mod - self.background.get_rect().width, 0))
+        if mod < 626:
+            screen.blit(self.background, (mod, 0))
         self.x_background -= 1
-        if self.x_background > 0:
-            screen.blit(self.background, (self.x_background, 0))
-            screen.blit(self.background, (self.x_background - 626, 0))
-        else:
-            self.x_background = 626
-            screen.blit(self.background, (self.x_background, 0))
-
         screen.blit(self.player.image, self.player.rect) # Application de l'image du joueur
 
         self.all_sleds.draw(screen) # Affichage des traineaux
@@ -109,17 +113,8 @@ class Game:
         score_text = font.render(f'Score : {self.score}', 1, (187, 255, 255)) # Mise en forme de l'affichage du score (police + couleur)
         screen.blit(score_text, (20, 20))  # Affichage sur écran
 
-        '''# Affichage des vies
-        if self.player.lives == 3:
-            health_image = pygame.image.load('images/hearts 3.png') # Chargement de l'image de 3 vies restantes
-        elif self.player.lives == 2:
-            health_image = pygame.image.load('images/hearts 2.png')  # Chargement de l'image de 2 vies restantes
-        else:
-            health_image = pygame.image.load('images/hearts 1.png') # Chargement de l'image d'une vie restante
-        health_image = pygame.transform.scale(health_image, (120, 120))
-        screen.blit(health_image, (5, 20))'''
-
-        pygame.display.flip() # Mise à jour de l'écran
+        screen.blit(self.health_image, (5, 20))
+        pygame.display.flip()  # Mise à jour de l'écran
 
     # Fonction qui permet d'afficher les traineaux
     def spawn_sled(self):
@@ -138,6 +133,14 @@ class Game:
     def handle_pause(self):
         for event in pygame.event.get():
             self.pause.check_pause(event)
+
+    def update_health_image(self, life):
+        if life <= 0:
+            return
+        self.health_image = pygame.transform.scale(self.lifes_image[life-1], (120, 120))
+
+
+
 
 
 

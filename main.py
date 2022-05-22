@@ -30,14 +30,11 @@ game = Game()
 
 running = True
 down = False
-timer = 500
+timer = 250
 cpt = 0
-
+clock = pygame.time.Clock()
 while running:
-
-    clock = pygame.time.Clock()
     clock.tick(timer)  # Vitesse de défilement & vitesse déplacement joueur
-
     # Si le jeu est en marche
     if game.is_playing:
         game.update(screen)
@@ -47,7 +44,6 @@ while running:
             print("\nAttention, accélération !!")
             timer += 200
             cpt = 0
-
 
     # Sinon
     else:
@@ -60,11 +56,12 @@ while running:
         for i in range(0, 6):
             screen.blit(game.load_score.draw_score(i), game.load_score.score_rect)
 
-        pygame.display.flip()  # Mise à jour du jeu
 
         # Si aucun nom de joueur n'a été rentré
         if game.name_needed:
             game.enter_name(screen)
+        pygame.display.flip()  # Mise à jour du jeu
+
 
 
 
