@@ -9,7 +9,8 @@
 
 import pygame
 from game import Game
-
+from snowballs import Snowballs
+from snowballs import Snowballs
 pygame.init()
 
 # Création de la fenêtre
@@ -30,14 +31,11 @@ game = Game()
 
 running = True
 down = False
-timer = 500
+timer = 250
 cpt = 0
-
+clock = pygame.time.Clock()
 while running:
-
-    clock = pygame.time.Clock()
     clock.tick(timer)  # Vitesse de défilement & vitesse déplacement joueur
-
     # Si le jeu est en marche
     if game.is_playing:
         game.update(screen)
@@ -47,7 +45,6 @@ while running:
             print("\nAttention, accélération !!")
             timer += 200
             cpt = 0
-
 
     # Sinon
     else:
@@ -60,11 +57,14 @@ while running:
         for i in range(0, 6):
             screen.blit(game.load_score.draw_score(i), game.load_score.score_rect)
 
-        pygame.display.flip()  # Mise à jour du jeu
 
         # Si aucun nom de joueur n'a été rentré
         if game.name_needed:
             game.enter_name(screen)
+
+        pygame.display.flip()  # Mise à jour du jeu
+
+    #Affichage d'une boule de neige
 
 
 
@@ -83,16 +83,23 @@ while running:
 
             # Si le joueur touche la touche "Entrée" :
             if event.key == pygame.K_RETURN:
+                timer = 250
                 game.start()  # Démarrage du jeu
+
+            if event.key == pygame.K_b:
+                game.launch_snowballs()#affichage des boules de neiges
 
         # Si le joueur lâche le clavier :
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
             down = True
 
+        #if game.pressed.get ( pygame.K_b):
+
+
     # Si le joueur presse la touche "Espace" et que le personnage est au dessus du sol :
-    if game.pressed.get(pygame.K_SPACE) and game.player.rect.y > 0:
-        game.player.move_up() # Faire monter le joueur
+    if game.pressed.get(pygame.K_SPACE) and game.player.rect.y > 0 :
+         game.player.move_up() # Faire monter le joueur
 
     # Si le joueur lache le clavier et que le personnage est en dessous de la limite supérieure de la fenêtre :
     if down and game.player.rect.y <= 475:

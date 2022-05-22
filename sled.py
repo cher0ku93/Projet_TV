@@ -29,6 +29,7 @@ class Sled(pygame.sprite.Sprite):
         if self.rect.x <= -160:
             self.rect.x = 600 + random.randint(300, 1000)  # Apparition d'un nouveau traîneau
 
+
     # Fonction qui permet de supprimer les traineaux
     def remove(self):
         self.game.all_sleds.remove(self)
