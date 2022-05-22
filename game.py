@@ -85,6 +85,8 @@ class Game:
         self.player.lives = self.player.max_lives  # Réinitialisation du nombre de vie à 3
         self.score = 0  # Réinitialisation du score à 0
         self.health_image = pygame.transform.scale(self.lifes_image[2], (120, 120))
+        self.pressed = {}
+
 
 
     def update(self, screen):

@@ -60,6 +60,7 @@ while running:
         # Si aucun nom de joueur n'a été rentré
         if game.name_needed:
             game.enter_name(screen)
+
         pygame.display.flip()  # Mise à jour du jeu
 
 
@@ -80,6 +81,7 @@ while running:
 
             # Si le joueur touche la touche "Entrée" :
             if event.key == pygame.K_RETURN:
+                timer = 250
                 game.start()  # Démarrage du jeu
 
         # Si le joueur lâche le clavier :
@@ -88,8 +90,8 @@ while running:
             down = True
 
     # Si le joueur presse la touche "Espace" et que le personnage est au dessus du sol :
-    if game.pressed.get(pygame.K_SPACE) and game.player.rect.y > 0:
-        game.player.move_up() # Faire monter le joueur
+    if game.pressed.get(pygame.K_SPACE) and game.player.rect.y > 0 :
+         game.player.move_up() # Faire monter le joueur
 
     # Si le joueur lache le clavier et que le personnage est en dessous de la limite supérieure de la fenêtre :
     if down and game.player.rect.y <= 475:
