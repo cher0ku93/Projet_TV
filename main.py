@@ -86,9 +86,6 @@ while running:
                 timer = 250
                 game.start()  # Démarrage du jeu
 
-            if event.key == pygame.K_b:
-                game.launch_snowballs()#affichage des boules de neiges
-
         # Si le joueur lâche le clavier :
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
