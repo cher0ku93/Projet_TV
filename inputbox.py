@@ -27,7 +27,7 @@ class InputBox(pygame.sprite.Sprite):
 
         if event.type == pygame.KEYDOWN:
             if self.active:
-                if event.key == pygame.K_w:
+                if event.key == pygame.K_w :
                     print(self.text)
                     self.done = True
 

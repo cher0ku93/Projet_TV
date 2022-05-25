@@ -9,8 +9,7 @@
 
 import pygame
 from game import Game
-from snowballs import Snowballs
-from snowballs import Snowballs
+
 pygame.init()
 
 # Création de la fenêtre
@@ -31,20 +30,20 @@ game = Game()
 
 running = True
 down = False
-timer = 250
-cpt = 0
+timer = 700
+#cpt = 0
 clock = pygame.time.Clock()
 while running:
-    clock.tick(timer)  # Vitesse de défilement & vitesse déplacement joueur
+    clock.tick(700)  # Vitesse de défilement & vitesse déplacement joueur
     # Si le jeu est en marche
     if game.is_playing:
         game.update(screen)
         game.score += 1
-        cpt += 1
-        if cpt == 1500:
-            print("\nAttention, accélération !!")
-            timer += 200
-            cpt = 0
+        #cpt += 1
+        #if cpt == 1500:
+            #print("\nAttention, accélération !!")
+            #timer += 200
+            #cpt = 0
 
     # Sinon
     else:
@@ -64,7 +63,6 @@ while running:
 
         pygame.display.flip()  # Mise à jour du jeu
 
-    #Affichage d'une boule de neige
 
 
 
@@ -83,16 +81,13 @@ while running:
 
             # Si le joueur touche la touche "Entrée" :
             if event.key == pygame.K_RETURN:
-                timer = 250
+                timer = 700
                 game.start()  # Démarrage du jeu
 
         # Si le joueur lâche le clavier :
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
             down = True
-
-        #if game.pressed.get ( pygame.K_b):
-
 
     # Si le joueur presse la touche "Espace" et que le personnage est au dessus du sol :
     if game.pressed.get(pygame.K_SPACE) and game.player.rect.y > 0 :

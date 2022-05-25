@@ -3,9 +3,10 @@
 import pygame
 import random
 
+
 # Création de la classe représentant les traineaux
 class Sled(pygame.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self,game):
         super().__init__()
         self.game = game
         self.image = pygame.image.load('images/sled.gif')  # Chargement de l'image d'un traineau
@@ -28,7 +29,6 @@ class Sled(pygame.sprite.Sprite):
 
         if self.rect.x <= -160:
             self.rect.x = 600 + random.randint(300, 1000)  # Apparition d'un nouveau traîneau
-
 
     # Fonction qui permet de supprimer les traineaux
     def remove(self):

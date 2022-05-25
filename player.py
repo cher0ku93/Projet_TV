@@ -7,12 +7,11 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.game = game
         self.image = pygame.image.load('images/player.png') # Chargement de l'image du joueur
-        #self.image = pygame.transform.scale(self.image, (102, 102))  # Reduction de la taille de l'image du personnage
         self.rect = self.image.get_rect()
         self.rect.x = 20  # Position du joueur sur l'axe des abscisses
         self.rect.y = 475  # Position du joueur sur l'axe des ordonnées
-        self.velocity1 = 13 # Vitesse du joueur
-        self.velocity2 = 9
+        self.velocity1 = 5 # Vitesse du joueur
+        self.velocity2 = 3
         self.lives = 3  # Nombre de vie du joueur
         self.max_lives = 3  # Nombre maximal de vie que le joueur peut avoir
 
