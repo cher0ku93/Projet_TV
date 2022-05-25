@@ -6,7 +6,8 @@ from sled import Sled
 from tinsel import Tinsel
 from score import Score
 from inputbox import InputBox
-from snowballs import Snowballs
+from snowball_event import SnowBallEvent
+
 
 # Création de la classe représentant le jeu
 class Game:
@@ -28,13 +29,12 @@ class Game:
         self.all_sleds = pygame.sprite.Group()
         self.spawn_sled()
 
-        #Concernant les boules de neiges :
-        self.all_snowballs = pygame.sprite.Group()
-        self.spawn_snowballs()
-
         # Concernant les guirlandes :
         self.all_tinsels = pygame.sprite.Group()
         self.spawn_tinsel()
+
+        #Concernant la barre d'event
+        self.snowball_event = SnowBallEvent(self)
 
         # Concernant le score :
         self.score = 0  # Initialisation du score
@@ -86,7 +86,6 @@ class Game:
         self.is_playing = False # Le jeu n'est plus en marche
         self.all_sleds = pygame.sprite.Group()
         self.all_tinsels = pygame.sprite.Group()
-        self.all_snowballs = pygame.sprite.Group()
         self.player.lives = self.player.max_lives  # Réinitialisation du nombre de vie à 3
         self.score = 0  # Réinitialisation du score à 0
         self.health_image = pygame.transform.scale(self.lifes_image[2], (120, 120))
@@ -105,9 +104,8 @@ class Game:
         screen.blit(self.player.image, self.player.rect) # Application de l'image du joueur
 
         self.all_sleds.draw(screen) # Affichage des traineaux
-        self.all_tinsels.draw(screen)
-        self.all_snowballs.draw(screen)# Affichage des guirlandes
-        #affichage des boules de neiges
+        self.all_tinsels.draw(screen)  # Affichage des guirlandes
+        self.snowball_event.all_snowball.draw(screen)
 
         # Défilement des traineaux
         for sled in self.all_sleds:
@@ -117,14 +115,18 @@ class Game:
         for tinsel in self.all_tinsels:
             tinsel.scrolling()
 
-        #Defilement des boules de neiges
-        for snowballs in self.all_snowballs:
-            snowballs.scrolling()
+        for snowball in self.snowball_event.all_snowball:
+            snowball.fall()
+
+
 
         # Affichage du score
         font = pygame.font.SysFont('Verdana', 20, 0)  # Police d'écriture + taille + non gras
         score_text = font.render(f'Score : {self.score}', 1, (187, 255, 255)) # Mise en forme de l'affichage du score (police + couleur)
         screen.blit(score_text, (20, 20))  # Affichage sur écran
+
+        #actualiser la barre d'event
+        self.snowball_event.update_bar(screen)
 
         screen.blit(self.health_image, (5, 20))
         pygame.display.flip()  # Mise à jour de l'écran
@@ -139,17 +141,9 @@ class Game:
         tinsel = Tinsel(self)
         self.all_tinsels.add(tinsel)
 
-    def spawn_snowballs(self) :
-        snowballs = Snowballs(self)
-        self.all_snowballs.add(snowballs)
-
     # Fonction qui permet de détecter les collisions
     def check_collision(self, sprite, group):
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
-
-
-
-
 
     def handle_pause(self):
         for event in pygame.event.get():
